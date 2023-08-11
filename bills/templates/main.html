@@ -1,0 +1,52 @@
+
+
+
+<a href="admin">Admin</a>
+<h1>Os. Piastowskie 23/10</h1>
+<h3>Pokoje:</h3>
+<ul>
+    {% for room in rooms %}
+    <li> <a href="{% url 'room' room.id %}"> {{ room.name }}</a> (saldo: {{ room.balance }} zł)</li>
+    {% endfor %}
+</ul>
+
+<h3>Rachunki:</h3>
+<table>
+    <tr>
+        <td>Data</td>
+        <td>Za?</td>
+        <td>Kwota [zł]</td>
+        <td>Saldo [zł]</td>
+        <td>Akcje</td>
+    </tr>
+    {% for bill in bills %}
+    <tr>
+        <td> {{ bill.date }} </td>
+        <td> {{ bill.get_bill_type_display }} </td>
+        <td> {{ bill.amount }}</td>
+        <td> {{ bill.balance }} </td>
+        <td>
+            {% if bill.bill_type == 'RENT' %}
+                <a href="{% url 'edit_rent' bill.room.id bill.id %}">Edytuj</a>
+            {% else %}
+                <a href="{% url 'edit_bill' bill.bill_type bill.id %}">Edytuj</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<h4>Dodaj czynsz:</h4>
+<ul>
+    {% for room in rooms %}
+    <li><a href="{% url 'add_rent' room.id %}">{{ room.name }}</a></li>
+    {% endfor %}
+</ul>
+<h4>Dodaj rachunek:</h4>
+<ul>
+    <li><a href="{% url 'add_bill' 'HOUSING' %}">Spółdzielnia</a></li>
+    <li><a href="{% url 'add_bill' 'ELECTRIC' %}">Prąd</a></li>
+    <li><a href="{% url 'add_bill' 'GAS' %}">Gaz</a></li>
+    <li><a href="{% url 'add_bill' 'OTHER' %}">Inne</a></li>
+</ul>
