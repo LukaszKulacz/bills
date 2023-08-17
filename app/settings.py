@@ -25,13 +25,13 @@ SECRET_KEY = 'django-insecure-yhov-y!gm@#q%#o2&$$8e6*o)^0b-=ukr&x@99b&u3k(de$kku
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'bills.apps.BillsConfig',
+    'bills',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.app'
 
 
 # Database
