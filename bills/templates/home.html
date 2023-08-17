@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="home">Pokoje</li>
+    </ol>
+</nav>
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'apartment_card.html' %}
+
+<h4 class="d-flex justify-content-between mb-3">
+    <span class="text-muted">Pokoje</span>
+</h4>
+
+<div class="list-group mb-3">
+    
+    {% include 'home_room_list_balance.html' %}
+
+    {% for room in rooms %}
+        {% include 'home_room_list_entry.html' %}
+    {% endfor %}
+
+</div>
+
+<h4 class="d-flex justify-content-between mb-3">
+    <span class="text-muted">Rachunki </span>
+    <button class="btn btn-dark btn-sm text-light" data-bs-toggle="modal" data-bs-target="#modal_bill_create">Dodaj</button>
+</h4>
+
+
+{% for bill_month in bills %}
+    {% include 'home_bill_month.html' %}
+{% endfor %}
+
+{% include 'home_bill_create_modal.html' %}
+
+{% endblock %}

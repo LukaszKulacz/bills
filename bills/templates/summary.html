@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+
+{% block header %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="home"><a href="{% url 'index' %}">Pokoje</a></li>
+        <li class="breadcrumb-item active" aria-current="summary">Podsumowanie</li>
+    </ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+
+<h4 class="d-flex justify-content-between mb-3">
+    <div></div>
+    <div>
+        <a class="btn btn-dark btn-sm text-light" href="mailto:{{ mail }}?subject={{mail_subject}}&body={% autoescape off %}{{ mail_body }}{% endautoescape %}"><i class="bi bi-envelope-plus"></i> Wyślij</a>
+        <button class="btn btn-dark btn-sm text-light" onclick="copyToClipboard()"><i class="bi bi-scissors"></i> Kopiuj</button>
+    </div>
+</h4>
+
+<form>
+    <textarea class="form-control" id="text_area_summary" readonly rows="20">{{ raw_summary }}</textarea>
+</form>
+
+<script>
+    function copyToClipboard() {
+        const input = document.getElementById('text_area_summary')
+    
+        if(isOS()) {
+            let range = document.createRange()
+            range.selectNodeContents(input)
+            let selection = window.getSelection()
+            selection.removeAllRanges()
+            selection.addRange(range);
+            input.setSelectionRange(0, 999999);
+        } else {
+            input.select()
+        }
+    
+        document.execCommand("copy")
+        input.blur()
+    }
+
+    function isOS() {
+        return navigator.userAgent.match(/ipad|iphone/i)
+    }
+</script>
+
+{% endblock %}
+

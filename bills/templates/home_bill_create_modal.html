@@ -1,0 +1,37 @@
+<div class="modal fade" id="modal_bill_create" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <div class="modal-body">
+
+            <div class="d-flex justify-content-between">
+                <h3>Dodaj</h3>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Wróć</button>
+            </div>
+
+            <div class="list-group my-3">
+                <div class="list-group-item list-group-item-secondary">
+                    <h6 class="my-0">Czynsz</h6>
+                </div>
+                {% for room in rooms %}
+                <a class="list-group-item list-group-item-action" href="{% url 'rent_create' room.id %}">
+                    <p class="my-0">{{ room.name }} </p>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="list-group my-3">
+                <div class="list-group-item list-group-item-secondary">
+                    <h6 class="my-0">Rachunek</h6>
+                </div>
+                {% for type in types %}
+                <a class="list-group-item list-group-item-action" href="{% url 'bill_create' type.0 %}">
+                    <p class="my-0">{{type.1}}</p>
+                </a>
+                {% endfor %}
+            </div>
+
+        </div>
+      </div>
+    </div>
+</div>

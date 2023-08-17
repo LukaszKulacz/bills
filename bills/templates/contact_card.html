@@ -1,0 +1,19 @@
+<div class="card my-2  ">
+    
+    <div class="card-body">
+        <h5 class="m-0">
+            <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#contact_details" aria-expanded="false" aria-controls="contact_details"><i class="bi bi-person-vcard"></i></button>
+            <span class="card-subtitle text-muted">{{ room.first_name }} {{ room.last_name }} </span>
+        </h5>
+     
+
+        <div class="collapse" id="contact_details">
+            <hr />
+            <p class="card-text">
+                <i class="bi bi-calendar-range"></i> <span class="badge badge-secondary">{{ room.date_from }}</span> - <span class="badge badge-secondary">{{ room.date_to }}</span> <br />
+                <i class="bi bi-telephone"></i> {{ room.phone }} <br />
+                <i class="bi bi-envelope-at"></i> <a href="mailto:{{room.mail}}"> {{ room.mail }} </a> <br />
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,19 +1,20 @@
 from django.contrib import admin
 from .models import Bill, Room, Payment
-from .forms import BillAdminForm
 
 
 class BillAdmin(admin.ModelAdmin):
-    form = BillAdminForm
-    list_display = ['bill_type', 'room', 'date', 'amount', 'description']
-
+    list_display = ['type', 'room', 'date_created', 'value_to_pay', 'description']
+    
+    # def formatted_value_to_pay(self, model):
+    #     return f'{model.value_to_pay / 100:.2f} zł'
 
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ['name', 'first_name', 'last_name', 'area']
+    pass
+    #list_display = ['name', 'first_name', 'last_name', 'area']
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['bill', 'room', 'amount_to_pay', 'amount']
+    list_display = ['bill', 'room', 'value_to_pay', 'value']
 
 
 admin.site.register(Bill, BillAdmin)

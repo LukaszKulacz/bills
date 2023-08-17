@@ -1,0 +1,38 @@
+<div class="list-group mb-3">
+    
+    <div class="list-group-item list-group-item-secondary d-flex justify-content-between lh-condensed py-2">
+        <span> {{ bill_month.name }}  </span>
+    </div>
+
+    {% for bill in bill_month.bills %}
+        {% if bill.type == 'RENT' %}
+        <a class="list-group-item list-group-item-action d-flex justify-content-between lh-condensed" 
+            href="{% url 'rent_update' bill.id %}">
+        {% else %}
+        <a class="list-group-item list-group-item-action d-flex justify-content-between lh-condensed" 
+            href="{% url 'bill_update' bill.id %}">
+        {% endif %}
+    
+      <div>
+        <h6 class="my-0">{{bill.get_type_display}}</h6>
+        {% if bill.room is not None %}
+        <small class="text-muted">{{bill.format_value_to_pay | floatformat:2}} zł &mdash; {{bill.room.name}}</small>
+        {% else %}
+        <small class="text-muted">{{bill.format_value_to_pay | floatformat:2}} zł </small>
+        {% endif %}
+      </div>
+      <div>
+        {% if bill.balance == 0 %}
+        <span class="text-muted "> {{bill.balance | floatformat:2}} zł </span>
+        {% elif bill.balance > 0 %}
+        <span class="text-success"> {{bill.balance | floatformat:2}} zł </span>
+        {% else %}
+        <span class="text-danger"> {{bill.balance | floatformat:2}} zł </span>
+        {% endif %}
+
+      </div>
+    </a>
+    {% endfor %}
+
+
+</div>

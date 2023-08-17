@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block header %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="home"><a href="{% url 'index' %}">Pokoje</a></li>
+ 
+        <li class="breadcrumb-item" aria-current="room"><a href="{% url 'room' payment.room_id %}">{{ payment.room.name }} </a></li>
+    
+        <li class="breadcrumb-item active" aria-current="payment">Płatność</li>
+        
+    </ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+<h4>Ureguluj płatność</h4>
+<div class="container p-2 card">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <label for="type" class="col-3 col-form-label">Typ</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input type="text" id="type" name="type" value="{{ payment.bill.get_type_display }}" disabled class="form-control " aria-label="Typ" >
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="date_created" class="col-3 col-form-label">Data</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input id="date_created" type="month" name="date_created" value="{{ date_created }}" disabled class="form-control" aria-label="Data" >
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="value_to_pay" class="col-3 col-form-label">Do zapłaty</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ value_to_pay }}" disabled placeholder="0,00" class="form-control rounded-left" aria-label="Do zapłaty" step="0.01">
+                    <span class="input-group-text">zł</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="value_to_pay" class="col-3 col-form-label">Wpłata</label>
+            <div class="col-9">
+                <div class="input-group ">
+                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ value }}" placeholder="0,00" class="form-control rounded-left" aria-label="Wpłata" step="0.01">
+                    <span class="input-group-text">zł</span>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between">
+            
+            <div>
+                <input type="submit" class="btn btn-outline-success align-self-start" name="action_full_payment" value="Całość">
+                <input type="submit" class="btn btn-outline-secondary align-self-start" name="action_clear_payment" value="Zero">
+            </div>
+
+            <input type="submit" class="btn btn-primary align-self-end" name="action_update" value="Zapisz">
+            
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

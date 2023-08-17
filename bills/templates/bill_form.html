@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block header %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="home"><a href="{% url 'index' %}">Pokoje</a></li>
+        {% if bill_id is not None %}
+        <li class="breadcrumb-item active" aria-current="room">Zmień rachunek</li>
+        {% else %}
+        <li class="breadcrumb-item active" aria-current="room">Dodaj rachunek</li>
+        {% endif %}
+    </ol>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% if last_bill is not None and bill_id is None %}
+<h4>Ostatni rachunek</h4>
+<div class="container p-2 card mb-3">
+    <form>
+    
+        <div class="row">
+            <label for="last_value_to_pay" class="col-3 col-form-label">Kwota</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input type="number" id="last_value_to_pay" name="last_value_to_pay" value="{{ last_bill.value_to_pay }}" disabled placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
+                    <span class="input-group-text">zł</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="last_date_created" class="col-3 col-form-label">Data</label>
+            <div class="col-9">
+                <div class="input-group">
+                    <input id="last_date_created" type="month" name="last_date_created" value="{{ last_bill.date_created }}" disabled class="form-control" aria-label="Data" required>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endif %}
+
+{% if bill_id is not None %}
+<h4>Zmień rachunek</h4>
+{% else %}
+<h4>Dodaj rachunek</h4>
+{% endif %}
+
+<div class="container p-2 card">
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <label for="type" class="col-3 col-form-label">Typ</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input type="text" id="type" name="type" value="{{ type }}" disabled class="form-control " aria-label="Typ" required>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="row">
+            <label for="room" class="col-3 col-form-label">Pokój</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    {% if room is not None %}
+                    <input type="text" id="room" name="room" value="{{ room.name }}" disabled class="form-control" aria-label="Pokój">
+                    {% else %}
+                    <input type="text" id="room" name="room" value="(do równego podziału)" disabled class="form-control" aria-label="Pokój">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <label for="value_to_pay" class="col-3 col-form-label">Kwota</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    {% if last_bill is not None %}
+                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ last_bill.value_to_pay }}" placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
+                    {% else %}
+                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ value }}" placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
+                    {% endif %}
+                    <span class="input-group-text">zł</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="date_created" class="col-3 col-form-label">Data</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input id="date_created" type="month" name="date_created" value="{{ now }}" class="form-control" aria-label="Data" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="description" class="col-3 col-form-label">Opis</label>
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input id="description" type="text" name="description" value="{{ description }}" class="form-control" aria-label="Opis" placeholder="opcjonalny ...">
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            {% if bill_id is not None %}
+            <a type="submit" class="btn btn-danger mr-3" href="{% url 'bill_delete' bill_id %}">Usuń</a>
+            {% endif %}
+            
+            {% if bill_id is not None %}
+            <input type="submit" class="btn btn-primary" value="Zapisz">
+            {% else %}
+            <input type="submit" class="btn btn-primary" value="Dodaj">
+            {% endif %}
+        </div>
+    </form>
+
+
+
+</div>
+
+{% endblock %}

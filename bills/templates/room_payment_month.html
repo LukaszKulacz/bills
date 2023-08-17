@@ -1,0 +1,31 @@
+<div class="list-group mb-3">
+    
+    <div class="list-group-item list-group-item-secondary d-flex justify-content-between lh-condensed pb-0 pt-2">
+        <span> {{ payment_month.name }}  </span>
+        <h5><span class="badge badge-secondary">{{ payment_month.balance | floatformat:2 }} zł</span></h5>
+    </div>
+
+    {% for payment in payment_month.payments %}
+ 
+      <a class="list-group-item list-group-item-action d-flex justify-content-between lh-condensed" 
+        href="{% url 'payment_update' payment.id %}">
+        
+        <div>
+          <h6 class="my-0">{{payment.bill.get_type_display}} </h6>
+          <small class="text-muted">{{payment.format_value_to_pay | floatformat:2}} zł </small>
+        </div>
+      
+        <div>
+          {% if payment.balance == 0 %}
+          <span class="text-muted "> {{payment.balance | floatformat:2}} zł </span>
+          {% elif payment.balance > 0 %}
+          <span class="text-success"> {{payment.balance | floatformat:2}} zł </span>
+          {% else %}
+          <span class="text-danger"> {{payment.balance | floatformat:2}} zł </span>
+          {% endif %}
+
+        </div>
+      </a>
+    {% endfor %}
+
+</div>

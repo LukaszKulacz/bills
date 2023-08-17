@@ -1,51 +1,26 @@
-<h1>Os. Piastowskie 23/10</h1>
-<p><a href="{% url 'index' %}">Powrót do listy pokojów</a></p>
-<table>
-    <tr>
-        <td>Pokój: </td>
-        <td>{{room.name}}</td>
-    </tr>
-    <tr>
-        <td>Imię: </td>
-        <td>{{room.first_name}}</td>
-    </tr>
-    <tr>
-        <td>Nazwisko: </td>
-        <td>{{room.last_name}}</td>
-    </tr>
-    <tr>
-        <td>Powierzchnia: </td>
-        <td>{{room.area}} m<sup>2</sup></td>
-    </tr>
-    <tr>
-        <td>Saldo: </td>
-        <td>{{ balance }} zł </td>
-    </tr>
+{% extends "base.html" %}
 
-</table>
+{% block header %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="home"><a href="{% url 'index' %}">Pokoje</a></li>
+        <li class="breadcrumb-item active" aria-current="room">{{ room.name }}</li>
+    </ol>
+</nav>
+{% endblock %}
 
-<h3>Płatności:</h3>
-<table>
-    <tr>
-        <td>Data</td>
-        <td>Za?</td>
-        <td>Kwota [zł]</td>
-        <td>Saldo [zł]</td>
-        <td>Akcje</td>
-    </tr>
 
-    {% for pay in payments %}
-    <tr>
-        <td> {{ pay.date |date:"m-Y" }} </td>
-        <td> {{ pay.bill.get_bill_type_display }} </td>
-        <td> {{ pay.amount_to_pay }} </td>
-        <td> {{ pay.balance }}</td>
-        <td>
-            {% if pay.amount != pay.amount_to_pay %}
-            <a href="{% url 'payment' pay.id %}">Zapłacono</a>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% block content %}
 
+{% include 'contact_card.html' %}
+
+<h4 class="d-flex justify-content-between mb-3">
+    <span class="text-muted">Płatności</span>
+    <span class="badge badge-secondary">{{ room.balance | floatformat:2 }} zł </span>
+</h4>
+
+{% for payment_month in payments %}
+    {% include 'room_payment_month.html' %}
+{% endfor %}
+
+{% endblock %}
