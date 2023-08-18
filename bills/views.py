@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.template.defaultfilters import date
 from .models import Room, Payment, Bill
+from django.contrib.auth.models import User
 
 
 def login(request):
@@ -40,6 +41,7 @@ def index(request):
     return render(request, 'home.html', data)
 
 
+@login_required(login_url="login")
 def room(request, room_id: int):
     room = Room.objects.get(id=room_id)
     data = {
@@ -50,6 +52,7 @@ def room(request, room_id: int):
     return render(request, 'room.html', data)
 
 
+@login_required(login_url="login")
 def bill_create(request, type: Bill.BillType):
     if request.method == 'POST':
         try:
@@ -83,6 +86,7 @@ def bill_create(request, type: Bill.BillType):
         return render(request, 'bill_form.html', data)
         
 
+@login_required(login_url="login")
 def bill_update(request, bill_id: int):
     bill = Bill.objects.get(id=bill_id)
     if request.method == 'POST':
@@ -106,12 +110,14 @@ def bill_update(request, bill_id: int):
         return render(request, 'bill_form.html', data)
 
 
+@login_required(login_url="login")
 def bill_delete(request, bill_id: int):
     bill = Bill.objects.get(id=bill_id)
     bill.delete()
     return redirect('index')
 
 
+@login_required(login_url="login")
 def rent_create(request, room_id: int):
     room = Room.objects.get(id=room_id)
     if request.method == 'POST':
@@ -147,6 +153,7 @@ def rent_create(request, room_id: int):
         return render(request, 'bill_form.html', data)
 
 
+@login_required(login_url="login")
 def rent_update(request, bill_id: int):
     bill = Bill.objects.get(id=bill_id)
     if request.method == 'POST':
@@ -173,10 +180,12 @@ def rent_update(request, bill_id: int):
         return render(request, 'bill_form.html', data)
 
 
+@login_required(login_url="login")
 def rent_delete(request, bill_id: int):
     return bill_delete(request, bill_id)
 
 
+@login_required(login_url="login")
 def payment_update(request, payment_id: int):
     pay = Payment.objects.get(id=payment_id)
     if request.method == 'POST':
@@ -199,6 +208,7 @@ def payment_update(request, payment_id: int):
         return render(request, 'payment_form.html', data)
 
 
+@login_required(login_url="login")
 def summary(request):
     text = 'Os. Piastowskie 23/10 \n'
     text += f'Data wygenerowania podsumowania {date(timezone.now(), "d F Y")}: \n\n'
