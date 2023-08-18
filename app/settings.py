@@ -25,13 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.130', '127.0.0.1', '.vercel.app']
+# ALLOWED_HOSTS = ['localhost', '192.168.1.130', '127.0.0.1', '.vercel.app']
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS =  os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -90,11 +88,7 @@ WSGI_APPLICATION = 'app.wsgi.app'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
-    )
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
 '''
