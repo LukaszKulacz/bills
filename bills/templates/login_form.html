@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 
 {% block header %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="login">Logowanie</li>
-        
-    </ol>
-</nav>
+
+
+
 {% endblock %}
 
 
 {% block content %}
 
-
-<div class="container p-2 card">
+<div class="container mt-4 p-2 card">
     <form action="" method="POST">
         {% csrf_token %}
 
@@ -23,22 +19,14 @@
         </div>
         {% endif %}
 
-        <div class="row">
-            <label for="username" class="col-3 col-form-label">Użytkownik</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    <input type="text" id="username" name="username" placeholder="Podaj nazwę użytkownika" class="form-control " aria-label="Użytkownik" >
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="username" id="username" placeholder=" " required>
+            <label for="username">Nazwa użytkownika</label>
         </div>
 
-        <div class="row">
-            <label for="password" class="col-3 col-form-label">Hasło</label>
-            <div class="col-9">
-                <div class="input-group">
-                    <input id="password" type="password" name="password" value="" placeholder="Podaj hasło" class="form-control" aria-label="Hasło" >
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="password" id="password" placeholder=" " required>
+            <label for="password">Hasło</label>
         </div>
 
         <hr />

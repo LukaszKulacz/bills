@@ -226,7 +226,12 @@ def summary(request):
         if len(payments) > 0:
             text += f'Rachunki: \n'
             for payment in payments:
-                text += f'- {payment.bill.get_type_display()} {payment.description} {date(payment.date_created, "F")} zapłacono {payment.value/100:.2f} z {payment.value_to_pay/100:.2f} ('
+                text += f'- {date(payment.date_created, "F")} '
+                if payment.bill.description:
+                    text += f'{payment.bill.description} '
+                else:
+                    text += f'{payment.bill.get_type_display()} '
+                text += f'zapłacono {payment.value/100:.2f} z {payment.value_to_pay/100:.2f} ('
                 if payment.balance() > 0:
                     text += f'nadpłata {payment.balance():.2f})\n'
                 else:

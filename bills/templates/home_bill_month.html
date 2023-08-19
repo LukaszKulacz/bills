@@ -14,12 +14,18 @@
         {% endif %}
     
       <div>
-        <h6 class="my-0">{{bill.get_type_display}}</h6>
+        <h6 class="my-0">{{bill.get_type_display}}
+          {% if bill.description %}
+            <small class="text-muted">{{ bill.description }}</small>
+          {% endif %}
+        </h6>
         {% if bill.room is not None %}
         <small class="text-muted">{{bill.format_value_to_pay | floatformat:2}} zł &mdash; {{bill.room.name}}</small>
         {% else %}
         <small class="text-muted">{{bill.format_value_to_pay | floatformat:2}} zł </small>
         {% endif %}
+
+
       </div>
       <div>
         {% if bill.balance == 0 %}

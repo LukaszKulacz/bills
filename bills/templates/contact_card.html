@@ -10,7 +10,8 @@
         <div class="collapse" id="contact_details">
             <hr />
             <p class="card-text">
-                <i class="bi bi-calendar-range"></i> <span class="badge badge-secondary">{{ room.date_from }}</span> - <span class="badge badge-secondary">{{ room.date_to }}</span> <br />
+                <i class="bi bi-calendar-range"></i> od <span class="badge bg-secondary">{{ room.date_from }}</span><br />
+                <i class="bi bi-calendar-range"></i> do <span class="badge bg-secondary">{{ room.date_to }}</span><br />
                 <i class="bi bi-telephone"></i> {{ room.phone }} <br />
                 <i class="bi bi-envelope-at"></i> <a href="mailto:{{room.mail}}"> {{ room.mail }} </a> <br />
             </p>

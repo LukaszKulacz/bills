@@ -21,24 +21,22 @@
 <div class="container p-2 card mb-3">
     <form>
     
-        <div class="row">
-            <label for="last_value_to_pay" class="col-3 col-form-label">Kwota</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    <input type="number" id="last_value_to_pay" name="last_value_to_pay" value="{{ last_bill.value_to_pay }}" disabled placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
-                    <span class="input-group-text">zł</span>
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="number" step="0.01" class="form-control" name="last_value_to_pay" id="last_value_to_pay" placeholder=" " value="{{  last_bill.value_to_pay }}" disabled>
+            <label for="last_value_to_pay">Kwota (zł)</label>
         </div>
 
-        <div class="row">
-            <label for="last_date_created" class="col-3 col-form-label">Data</label>
-            <div class="col-9">
-                <div class="input-group">
-                    <input id="last_date_created" type="month" name="last_date_created" value="{{ last_bill.date_created }}" disabled class="form-control" aria-label="Data" required>
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="month" class="form-control" name="last_date_created" id="last_date_created" placeholder=" " value="{{ last_bill.date_created }}" disabled>
+            <label for="last_date_created">Data</label>
         </div>
+
+        {% if last_bill.description %}
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="last_description" id="last_description" placeholder=" " value="{{ last_bill.description }}" disabled>
+            <label for="last_description">Opis (opcjonalny)</label>
+        </div>
+        {% endif %}
 
     </form>
 </div>
@@ -55,66 +53,43 @@
     <form action="" method="POST">
         {% csrf_token %}
 
-        <div class="row">
-            <label for="type" class="col-3 col-form-label">Typ</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    <input type="text" id="type" name="type" value="{{ type }}" disabled class="form-control " aria-label="Typ" required>
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="type" id="type" placeholder=" " value="{{ type }}" disabled>
+            <label for="type">Typ</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            {% if room is not None %}
+            <input type="text" class="form-control" name="room" id="room" placeholder=" " value="{{ room.name }}" disabled>
+            {% else %}
+            <input type="text" class="form-control" name="room" id="room" placeholder=" " value="(do równego podziału)" disabled>
+            {% endif %}
+            <label for="room">Pokój</label>
         </div>
 
 
-        
-        <div class="row">
-            <label for="room" class="col-3 col-form-label">Pokój</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    {% if room is not None %}
-                    <input type="text" id="room" name="room" value="{{ room.name }}" disabled class="form-control" aria-label="Pokój">
-                    {% else %}
-                    <input type="text" id="room" name="room" value="(do równego podziału)" disabled class="form-control" aria-label="Pokój">
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="row">
-            <label for="value_to_pay" class="col-3 col-form-label">Kwota</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    {% if last_bill is not None %}
-                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ last_bill.value_to_pay }}" placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
-                    {% else %}
-                    <input type="number" id="value_to_pay" name="value_to_pay" value="{{ value }}" placeholder="0,00" class="form-control rounded-left" aria-label="Kwota" step="0.01" required>
-                    {% endif %}
-                    <span class="input-group-text">zł</span>
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            {% if last_bill is not None %}
+            <input type="number" step="0.01" class="form-control" name="value_to_pay" id="value_to_pay" placeholder=" " value="{{ last_bill.value_to_pay }}" required>
+            {% else %}
+            <input type="number" step="0.01" class="form-control" name="value_to_pay" id="value_to_pay" placeholder=" " value="{{ value }}" required>
+            {% endif %}
+            <label for="value_to_pay">Kwota (zł)</label>
         </div>
 
-        <div class="row">
-            <label for="date_created" class="col-3 col-form-label">Data</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    <input id="date_created" type="month" name="date_created" value="{{ now }}" class="form-control" aria-label="Data" required>
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="month" class="form-control" name="date_created" id="date_created" placeholder=" " value="{{ now }}" required>
+            <label for="date_created">Data</label>
         </div>
 
-        <div class="row">
-            <label for="description" class="col-3 col-form-label">Opis</label>
-            <div class="col-9">
-                <div class="input-group mb-3">
-                    <input id="description" type="text" name="description" value="{{ description }}" class="form-control" aria-label="Opis" placeholder="opcjonalny ...">
-                </div>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="description" id="description" placeholder=" " value="{{ description }}">
+            <label for="description">Opis (opcjonalny)</label>
         </div>
 
         <div class="d-flex justify-content-end">
             {% if bill_id is not None %}
-            <a type="submit" class="btn btn-danger mr-3" href="{% url 'bill_delete' bill_id %}">Usuń</a>
+            <a type="submit" class="btn btn-outline-danger me-3" href="{% url 'bill_delete' bill_id %}">Usuń</a>
             {% endif %}
             
             {% if bill_id is not None %}
